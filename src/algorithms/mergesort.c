@@ -3,8 +3,8 @@
 
 #include <stdlib.h>
 
-static void merge(Application* app, size_t left, size_t middle, size_t right);
-static void mergesort_rec(Application* app, size_t left, size_t right);
+static int merge(Application* app, size_t left, size_t middle, size_t right);
+static int mergesort_rec(Application* app, size_t left, size_t right);
 
 static int* tmp = NULL;
 
@@ -15,19 +15,24 @@ void mergesort(Application* app)
     free(tmp);
 }
 
-static void mergesort_rec(Application* app, size_t left, size_t right)
+static int mergesort_rec(Application* app, size_t left, size_t right)
 {
     if(right > left)
     {
         size_t middle = (left + right) / 2;
-        mergesort_rec(app, left, middle);
-        mergesort_rec(app, middle + 1, right);
+        if(mergesort_rec(app, left, middle))
+            return 1;
 
-        merge(app, left, middle, right);
+        if(mergesort_rec(app, middle + 1, right))
+            return 1;
+
+        return merge(app, left, middle, right);
     }
+
+    return 0;
 }
 
-static void merge(Application* app, size_t left, size_t middle, size_t right)
+static int merge(Application* app, size_t left, size_t middle, size_t right)
 {
     for(size_t k = left; k <= middle; k++)
     {
@@ -59,9 +64,9 @@ static void merge(Application* app, size_t left, size_t middle, size_t right)
         k++;
 
         if(update_screen(app))
-            return;
+            return 1;
     }
 
     visualizer_data.array[right] = tmp[i];
-    update_screen(app);
+    return update_screen(app);
 }

@@ -46,7 +46,7 @@ int init_application(Application* app, int width, int height, const char* title)
 
     app->active_visualizer = &histogram_visualizer;
 
-    visualizer_data.array_size = 2500;
+    visualizer_data.array_size = 1500;
     visualizer_data.array = (int*)malloc(visualizer_data.array_size * sizeof(int));
     // TODO: Check if NULL
 
