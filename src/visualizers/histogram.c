@@ -116,7 +116,7 @@ void histogram_render(void)
     {
         glm_mat4_identity(model);
         glm_translate(model, (vec3) {(float)i / visualizer_data.array_size, 0.0f, 0.0f});
-        glm_scale(model, (vec3) {1.0f / (visualizer_data.array_size + 1), 1.0f / visualizer_data.array_size + (float)i / (visualizer_data.array_size + 1), 1.0f});
+        glm_scale(model, (vec3) {1.0f / (visualizer_data.array_size + 1), 1.0f / visualizer_data.array_size + (float)visualizer_data.array[i] / (visualizer_data.array_size + 1), 1.0f});
 
         glUniformMatrix4fv(model_location, 1, GL_FALSE, model[0]);
 
