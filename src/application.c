@@ -7,10 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include "visualizers/histogram.h"
-
-void bubblesort(Application* app);
-void mergesort(Application* app, size_t left, size_t right);
-void merge(Application* app, size_t left, size_t middle, size_t right);
+#include "algorithms.h"
 
 void shuffle(int* array, size_t n);
 
@@ -86,15 +83,21 @@ void run_application(Application* app)
 
     while(!glfwWindowShouldClose(window))
     {
-        glfwPollEvents();
-
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        app->active_visualizer->render();
-
-        glfwSwapBuffers(window);
+        update_screen(app);
     }
+}
+
+int update_screen(Application* app)
+{
+    glfwPollEvents();
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    app->active_visualizer->render();
+
+    glfwSwapBuffers(app->window);
+    return glfwWindowShouldClose(app->window);
 }
 
 void framebuffer_changed(GLFWwindow* window, int width, int height)
@@ -115,104 +118,4 @@ void shuffle(int *array, size_t n)
           array[i] = t;
         }
     }
-}
-
-void bubblesort(Application* app)
-{
-    for(size_t n = visualizer_data.array_size; n > 1; n--)
-    {
-        for(int i = 0; i < n - 1; i++)
-        {
-            if(visualizer_data.array[i] > visualizer_data.array[i + 1])
-            {
-                int tmp = visualizer_data.array[i];
-                visualizer_data.array[i] = visualizer_data.array[i + 1];
-                visualizer_data.array[i + 1] = tmp;
-            }
-
-            if(glfwWindowShouldClose(app->window))
-                return;
-
-            glfwPollEvents();
-
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            app->active_visualizer->render();
-
-            glfwSwapBuffers(app->window);
-        }
-    }
-}
-
-void mergesort(Application* app, size_t left, size_t right)
-{
-    if(right > left)
-    {
-        size_t middle = (left + right) / 2;
-        mergesort(app, left, middle);
-        mergesort(app, middle + 1, right);
-
-        merge(app, left, middle, right);
-    }
-}
-
-void merge(Application* app, size_t left, size_t middle, size_t right)
-{
-    int* tmp = (int*)malloc(visualizer_data.array_size * sizeof(int));
-    for(size_t k = left; k <= middle; k++)
-    {
-        tmp[k] = visualizer_data.array[k];
-    }
-
-    for(size_t k = middle + 1; k <= right; k++)
-    {
-        tmp[right + middle + 1 - k] = visualizer_data.array[k];
-    }
-
-    size_t i = left;
-    size_t j = right;
-    size_t k = left;
-
-    while(i < j)
-    {
-        if(tmp[i] <= tmp[j])
-        {
-            visualizer_data.array[k] = tmp[i];
-            i++;
-        }
-        else
-        {
-            visualizer_data.array[k] = tmp[j];
-            j--;
-        }
-
-        k++;
-
-        if(glfwWindowShouldClose(app->window))
-            return;
-
-        glfwPollEvents();
-
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        app->active_visualizer->render();
-
-        glfwSwapBuffers(app->window);
-    }
-
-    visualizer_data.array[right] = tmp[i];
-
-    if(glfwWindowShouldClose(app->window))
-            return;
-
-        glfwPollEvents();
-
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        app->active_visualizer->render();
-
-        glfwSwapBuffers(app->window);
 }

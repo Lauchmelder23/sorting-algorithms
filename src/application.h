@@ -5,7 +5,7 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-typedef struct 
+typedef struct Application
 {
     GLFWwindow* window;
     Visualizer* active_visualizer;
@@ -15,5 +15,6 @@ int init_application(Application* app, int width, int height, const char* title)
 void destroy_application(Application* app);
 
 void run_application(Application* app);
+int update_screen(Application* app);
 
 #endif
