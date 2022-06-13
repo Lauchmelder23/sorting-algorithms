@@ -79,7 +79,9 @@ void run_application(Application* app)
     GLFWwindow* window = app->window;
 
     // bubblesort(app);
-    mergesort(app, 0, visualizer_data.array_size - 1);
+    // mergesort(app);
+    // insertionsort(app);
+    shellsort(app);
 
     while(!glfwWindowShouldClose(window))
     {

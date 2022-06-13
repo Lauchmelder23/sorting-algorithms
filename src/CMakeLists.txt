@@ -5,6 +5,8 @@ add_executable(sortalgs
     "visualizers/histogram.c"
     "algorithms/bubblesort.c"
     "algorithms/mergesort.c"
+    "algorithms/insertionsort.c"
+    "algorithms/shellsort.c"
 )
 
 target_include_directories(sortalgs PRIVATE

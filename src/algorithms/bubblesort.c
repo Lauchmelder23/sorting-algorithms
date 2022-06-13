@@ -1,4 +1,3 @@
-#include "algorithms.h"
 #include "application.h"
 
 void bubblesort(Application* app)
