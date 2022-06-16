@@ -4,3 +4,6 @@
 [submodule "vendor/cglm"]
 	path = vendor/cglm
 	url = https://github.com/recp/cglm
+[submodule "vendor/cimgui"]
+	path = vendor/cimgui
+	url = git@github.com:cimgui/cimgui.git
